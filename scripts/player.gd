@@ -1,20 +1,33 @@
 extends CharacterBody2D
 
+
 @onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
+@onready var duration: Timer = $Dash/duration
+
+var isDashing : bool = false
 
 const SPEED : float = 200.0
 
 func _ready() -> void:
-	sprite.animation_finished.connect(animationFinished)
+	duration.connect("timeout", durationTimeout)
 
 func _physics_process(delta: float) -> void:
 	var direction_x := Input.get_axis("analog_left", "analog_right")
 	var direction_y := Input.get_axis("analog_up", "analog_down")
-	var rolling : bool = Input.is_action_pressed("shift")
+	var shift : bool = Input.is_action_just_pressed("shift")
+	
+	if not isDashing:
+		walkAction(direction_x, direction_y)
+		turnDirectionAction(direction_x, direction_y)
+		
+		if shift:
+			dashAction()
+			
+	else:
+		print(duration.time_left)
+		velocity.x = 300
 
-	walkAction(direction_x, direction_y)
-	turnDirectionAction(direction_x, direction_y)
-	rollAction(rolling)
+	
 	move_and_slide()
 
 func walkAction(dir_x : float,dir_y : float) -> void:
@@ -34,14 +47,18 @@ func turnDirectionAction(dir_x : float, dir_y : float) -> void:
 	elif dir_x < 0:
 		sprite.flip_h = true
 
-func rollAction(rolling : bool) -> void:
-	if rolling and isWalking():
-		sprite.play("rolling")
-		print("start rolling")
-		print(sprite.animation_finished.is_connected(animationFinished))
-
-func animationFinished() -> void:
-	print("finish rolling")
+func dashAction() -> void:
+	sprite.modulate = "ffffff99"
+	duration.start()
+	sprite.play("walking")
+	sprite.speed_scale = 3
+	isDashing = true
+	
 
 func isWalking() -> bool:
 	return true if velocity != Vector2(0,0) else false
+
+func durationTimeout() -> void:
+	sprite.modulate = "ffffff"
+	sprite.speed_scale = 1
+	isDashing = false
