@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://0ekkuu2hj8oa"]
 
-[ext_resource type="PackedScene" uid="uid://68rxejly3tsr" path="res://scenes/player_controler/player.tscn" id="1_netr6"]
+[ext_resource type="PackedScene" uid="uid://68rxejly3tsr" path="res://scenes/player/player.tscn" id="1_netr6"]
 
 [node name="TestScene" type="Node2D"]
 
@@ -9,4 +9,7 @@ position = Vector2(576, 324)
 zoom = Vector2(4, 4)
 
 [node name="player" parent="." instance=ExtResource("1_netr6")]
-position = Vector2(553, 314)
+offset_left = 553.0
+offset_top = 314.0
+offset_right = 593.0
+offset_bottom = 354.0

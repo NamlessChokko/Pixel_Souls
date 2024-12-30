@@ -1,4 +1,7 @@
 extends CharacterBody2D
+# TODO: Add roll action
+
+
 
 @onready var sprite : AnimatedSprite2D = $AnimatedSprite2D
 
@@ -55,3 +58,6 @@ func animationFinished():
 
 func isPlayerWalking (velocity: Vector2) -> bool:
 	return false if velocity == Vector2(0,0) else true
+
+
+	
