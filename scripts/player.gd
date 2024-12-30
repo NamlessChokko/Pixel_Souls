@@ -25,7 +25,7 @@ func walkAction(dir_x : float,dir_y : float) -> void:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 	if not dir_y:
 		velocity.y = move_toward(velocity.y, 0, SPEED)
-	if isWalking():
+	if not isWalking():
 		sprite.play("idle")
 
 func turnDirectionAction(dir_x : float, dir_y : float) -> void:
@@ -35,7 +35,7 @@ func turnDirectionAction(dir_x : float, dir_y : float) -> void:
 		sprite.flip_h = true
 
 func rollAction(rolling : bool) -> void:
-	if rolling and not isWalking():
+	if rolling and isWalking():
 		sprite.play("rolling")
 		print("start rolling")
 		print(sprite.animation_finished.is_connected(animationFinished))
@@ -44,4 +44,4 @@ func animationFinished() -> void:
 	print("finish rolling")
 
 func isWalking() -> bool:
-	return true if velocity > Vector2(0,0) else false
+	return true if velocity != Vector2(0,0) else false
