@@ -4,11 +4,8 @@ extends CharacterBody2D
 
 const SPEED : float = 200.0
 
-
-
 func _ready() -> void:
 	sprite.animation_finished.connect(animationFinished)
-
 
 func _physics_process(delta: float) -> void:
 	var direction_x := Input.get_axis("analog_left", "analog_right")
@@ -20,38 +17,31 @@ func _physics_process(delta: float) -> void:
 	rollAction(rolling)
 	move_and_slide()
 
-
-
-func walkAction(dir_x : float,dir_y : float):
+func walkAction(dir_x : float,dir_y : float) -> void:
 	if dir_x or dir_y:
 		velocity = Vector2(dir_x,dir_y).normalized() * SPEED
 		sprite.play("walking")
-
 	if not dir_x:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 	if not dir_y:
 		velocity.y = move_toward(velocity.y, 0, SPEED)
-
-	if not isPlayerWalking(velocity):
+	if isWalking():
 		sprite.play("idle")
 
-
-func turnDirectionAction(dir_x : float, dir_y : float):
+func turnDirectionAction(dir_x : float, dir_y : float) -> void:
 	if dir_x > 0:
 		sprite.flip_h = false
 	elif dir_x < 0:
 		sprite.flip_h = true
 
-
-func rollAction(rolling : bool):
-	if rolling and isPlayerWalking(velocity):
+func rollAction(rolling : bool) -> void:
+	if rolling and not isWalking():
 		sprite.play("rolling")
 		print("start rolling")
 		print(sprite.animation_finished.is_connected(animationFinished))
 
-
-func animationFinished():
+func animationFinished() -> void:
 	print("finish rolling")
 
-func isPlayerWalking (velocity: Vector2) -> bool:
-	return false if velocity == Vector2(0,0) else true
+func isWalking() -> bool:
+	return true if velocity > Vector2(0,0) else false

@@ -1,6 +1,6 @@
 [gd_scene load_steps=27 format=3 uid="uid://68rxejly3tsr"]
 
-[ext_resource type="Script" path="res://scripts/player_movement/player.gd" id="1_auhh1"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_auhh1"]
 [ext_resource type="Texture2D" uid="uid://cuyycln8sjx3c" path="res://assets/sprites/Tiny RPG Character/Characters(100x100)/Soldier/Soldier/Soldier-Idle.png" id="2_ibu25"]
 [ext_resource type="Texture2D" uid="uid://ci6uadhyy68pe" path="res://assets/sprites/Tiny RPG Character/Characters(100x100)/Soldier/Soldier/Soldier-Shadow_attack2.png" id="3_6ufrv"]
 [ext_resource type="Texture2D" uid="uid://danhj5he3xgtk" path="res://assets/sprites/Tiny RPG Character/Characters(100x100)/Soldier/Soldier/Soldier-Walk.png" id="4_qfwni"]
