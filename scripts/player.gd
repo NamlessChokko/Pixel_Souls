@@ -6,14 +6,14 @@ const SPEED : float = 200.0
 
 
 
-func ready():
+func _ready() -> void:
 	sprite.animation_finished.connect(animationFinished)
+
 
 func _physics_process(delta: float) -> void:
 	var direction_x := Input.get_axis("analog_left", "analog_right")
 	var direction_y := Input.get_axis("analog_up", "analog_down")
-	var rolling : bool = Input.is_action_just_pressed("shift")
-
+	var rolling : bool = Input.is_action_pressed("shift")
 
 	walkAction(direction_x, direction_y)
 	turnDirectionAction(direction_x, direction_y)
@@ -41,6 +41,7 @@ func rollAction(rolling : bool):
 	if rolling and velocity != Vector2(0,0):
 		sprite.play("rolling")
 		print("start rolling")
+		print(sprite.animation_finished.is_connected(animationFinished))
 
 func animationFinished():
 	print("finish rolling")
