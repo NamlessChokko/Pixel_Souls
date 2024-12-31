@@ -5,9 +5,10 @@ extends CharacterBody2D
 @onready var duration: Timer = $Dash/duration
 
 var isDashing : bool = false
+var direction : Vector2
 
 const SPEED : float = 100.0
-const DASH_SPEED_MULTIPLIER : float = 2.0A
+const DASH_SPEED_MULTIPLIER : float = 2.0
 
 func _ready() -> void:
 	duration.connect("timeout", durationTimeout)
@@ -22,11 +23,10 @@ func _physics_process(delta: float) -> void:
 		turnDirectionAction(direction_x)
 		
 		if shift:
-			dashAction()
+			dashAction(direction_x,direction_y)
 			
 	else:
-		print(duration.time_left)
-		velocity.x = SPEED * DASH_SPEED_MULTIPLIER
+		velocity = direction.normalized()  * SPEED * DASH_SPEED_MULTIPLIER
 
 	
 	move_and_slide()
@@ -48,7 +48,17 @@ func turnDirectionAction(dir_x : float) -> void:
 	elif dir_x < 0:
 		sprite.flip_h = true
 
-func dashAction() -> void:
+func changeDashDirection(dir_x : int,dir_y : int):
+	if isWalking():
+		direction = Vector2(dir_x,dir_y)
+	else:
+		if sprite.flip_h == true:
+			direction = Vector2(-1,0)
+		else:
+			direction = Vector2(1,0)
+
+func dashAction(dir_x : int, dir_y : int) -> void:
+	changeDashDirection(dir_x,dir_y)
 	sprite.modulate = "ffffff99"
 	duration.start()
 	sprite.play("walking")
